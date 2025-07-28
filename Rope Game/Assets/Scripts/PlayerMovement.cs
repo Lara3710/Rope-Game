@@ -37,9 +37,26 @@ public class PlayerMovement : MonoBehaviour
         {
             // använd rope script
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            rope.SpawnFirstRope(mousePos, transform.GetChild(0).position);
+            GameObject lastRope = rope.SpawnRopes(mousePos, new Vector2(transform.position.x + 0.5f, transform.position.y));
+
+            ConnectPlayer(lastRope);
         }
     }
 
+    private void ConnectPlayer(GameObject lastRope)
+    {
+        HingeJoint2D hinge = GetComponent<HingeJoint2D>();
+        hinge.connectedBody = lastRope.GetComponent<Rigidbody2D>();
 
+
+        // Set the anchor point on the player (usually center)
+        hinge.anchor = Vector2.zero;
+
+        // Set the connection point on the rope (bottom of segment)
+        float segmentLength = lastRope.GetComponent<SpriteRenderer>().bounds.size.y;
+        hinge.connectedAnchor = new Vector2(0, -segmentLength / 2f);
+
+
+        hinge.enabled = true;
+    }
 }

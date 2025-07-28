@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -40,6 +41,11 @@ public class PlayerMovement : MonoBehaviour
             GameObject lastRope = rope.SpawnRopes(mousePos, new Vector2(transform.position.x + 0.5f, transform.position.y));
 
             ConnectPlayer(lastRope);
+        }
+        if (Input.GetKeyUp(KeyCode.Mouse0))
+        {
+            rope.DeactivateRopes();
+            GetComponent<HingeJoint2D>().enabled = false;
         }
     }
 

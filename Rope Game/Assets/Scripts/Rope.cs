@@ -34,7 +34,7 @@ public class Rope : MonoBehaviour
         }
     }
 
-    private void DeactivateRopes()
+    internal void DeactivateRopes()
     {
         for (int i = 0; i < ropeParts.Count; i++)
         {

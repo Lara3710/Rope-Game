@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     {
         playerRb = GetComponent<Rigidbody2D>();
         Physics2D.gravity = new Vector2(0, gravity);
-        rope = GameObject.Find("Rope").GetComponent<Rope>();
+        rope = GameObject.Find("RopeContainer").GetComponent<Rope>();
     }
 
     // Update is called once per frame
@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // använd rope script
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            rope.SpawnFirstRope(mousePos, transform.position);
+            rope.SpawnFirstRope(mousePos, transform.GetChild(0).position);
         }
     }
 

@@ -1,15 +1,11 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D playerRb;
-    public float jumpForce = 15f;
-    public float sideForce = 10f;
+    public float jumpForce = 20f;
     public float gravity = -40f;
-
-    private bool isOnGround;
 
     private Rope rope;
 
@@ -26,27 +22,13 @@ public class PlayerMovement : MonoBehaviour
     {
         Jump();
         ProjectRope();
-        MoveSideWays();
     }
 
     private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             playerRb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            isOnGround = false;
-        }
-    }
-
-    private void MoveSideWays()
-    {
-        if (Input.GetKey(KeyCode.D))
-        {
-            playerRb.AddForce(Vector2.right * sideForce, ForceMode2D.Force);
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            playerRb.AddForce(Vector2.left * sideForce, ForceMode2D.Force);
         }
     }
 
@@ -57,8 +39,6 @@ public class PlayerMovement : MonoBehaviour
             // använd rope script
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             GameObject lastRope = rope.SpawnRopes(mousePos, new Vector2(transform.position.x + 0.5f, transform.position.y));
-
-            isOnGround = false;
 
             ConnectPlayer(lastRope);
         }
@@ -84,13 +64,5 @@ public class PlayerMovement : MonoBehaviour
 
 
         hinge.enabled = true;
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider.gameObject.CompareTag("Floor"))
-        {
-            isOnGround = true;
-        }
     }
 }

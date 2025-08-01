@@ -115,7 +115,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Lava"))
         {
-            gameManager.gameIsActive = false;
+            gameManager.GameOver();
         }
     }
 

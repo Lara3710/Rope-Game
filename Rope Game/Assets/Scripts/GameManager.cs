@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,8 +19,9 @@ public class GameManager : MonoBehaviour
 
     }
 
-    internal void StartGame()
+    public void StartGame()
     {
+        SceneManager.LoadScene(1, LoadSceneMode.Single);
         gameIsActive = true;
     }
 
@@ -31,6 +33,7 @@ public class GameManager : MonoBehaviour
 
     internal void GameOver()
     {
+        SceneManager.LoadScene(0, LoadSceneMode.Single);
         gameIsActive = false;
     }
 }

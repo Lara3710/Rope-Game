@@ -7,7 +7,7 @@ public class Rope : MonoBehaviour
 {
     public GameObject ropePrefab;
     private List<GameObject> ropeParts = new();
-    private int ropeListCount = 50;
+    private int ropeListCount = 20;
     float segmentLength;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -50,7 +50,7 @@ public class Rope : MonoBehaviour
         DeactivateRopes();
 
         GameObject anchor = transform.GetChild(0).gameObject;
-        Vector2 startPos = new Vector2(mousePos.x, 6f);
+        Vector2 startPos = new Vector2(mousePos.x, 3f);
         anchor.transform.position = startPos;
 
         Vector2 direction = (playerPos - startPos).normalized;

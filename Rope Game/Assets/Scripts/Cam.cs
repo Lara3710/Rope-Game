@@ -3,7 +3,7 @@ using UnityEngine;
 public class Cam : MonoBehaviour
 {
     public Transform player;
-    public float distance = 6f;
+    public float distance = 4f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

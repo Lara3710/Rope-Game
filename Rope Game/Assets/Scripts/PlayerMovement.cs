@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isOnRope;
 
     private Rope rope;
-    private float maxRopeDist = 6.5f;
+    private float maxRopeDist = 6f;
 
     public PlatformSpawner spawner;
 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlatformSpawner : MonoBehaviour
@@ -45,5 +46,17 @@ public class PlatformSpawner : MonoBehaviour
     {
         float yPos = Random.Range(-5f, -3f);
         return new Vector2(prevXPos + platformDist, yPos);
+    }
+
+    internal void RemoveOutOfBounds(Vector2 playerPos)
+    {
+        if (platforms.Peek().transform.position.x <= playerPos.x - 2 * platformDist)
+        {
+            // platforms.i =
+            // platforms.ElementAt(i)
+            GameObject platform = platforms.Dequeue();
+            platform.transform.position = GenerateSpawnPoint(platforms.Last().transform.position.x);
+            platforms.Enqueue(platform);
+        }
     }
 }

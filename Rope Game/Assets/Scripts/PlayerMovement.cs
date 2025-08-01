@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     public float gravity = -40f;
 
     private bool isOnGround;
+    private bool isOnRope;
 
     private Rope rope;
     private float maxRopeDist = 6.5f;
@@ -42,11 +43,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void MoveSideWays()
     {
-        if (Input.GetKey(KeyCode.D) && !isOnGround)
+        if (Input.GetKey(KeyCode.D) && isOnRope)
         {
             playerRb.AddForce(Vector2.right * sideForce, ForceMode2D.Force);
         }
-        else if (Input.GetKey(KeyCode.A) && !isOnGround)
+        else if (Input.GetKey(KeyCode.A) && isOnRope)
         {
             playerRb.AddForce(Vector2.left * sideForce, ForceMode2D.Force);
         }
@@ -54,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void ProjectRope()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !isOnRope)
         {
             // använd rope script
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -62,11 +63,13 @@ public class PlayerMovement : MonoBehaviour
             GameObject lastRope = rope.SpawnRopes(mousePos, new Vector2(transform.position.x + 0.5f, transform.position.y));
 
             isOnGround = false;
+            isOnRope = true;
 
             ConnectPlayer(lastRope);
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
+            isOnRope = false;
             rope.DeactivateRopes();
             GetComponent<HingeJoint2D>().enabled = false;
         }
@@ -101,8 +104,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Platform"))
         {
-            // spawner.MovePlatforms();
-            Debug.Log("g");
+            spawner.RemoveOutOfBounds(transform.position);
         }
     }
 }

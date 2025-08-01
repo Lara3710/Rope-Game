@@ -4,21 +4,24 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D playerRb;
-    public float jumpForce = 15f;
-    public float sideForce = 10f;
+    public float jumpForce = 10f;
+    public float sideForce = 6f;
     public float gravity = -40f;
 
     private bool isOnGround;
     private bool isOnRope;
+    private bool isOnPlatform;
 
     private Rope rope;
     private float maxRopeDist = 6f;
 
     public PlatformSpawner spawner;
+    private GameManager gameManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         playerRb = GetComponent<Rigidbody2D>();
         Physics2D.gravity = new Vector2(0, gravity);
         rope = GameObject.Find("RopeContainer").GetComponent<Rope>();
@@ -27,9 +30,13 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Jump();
-        ProjectRope();
-        MoveSideWays();
+        if (gameManager.gameIsActive)
+        {
+            Jump();
+            MoveSideWays();
+            ProjectRope();
+            PlayerLimits();
+        }
     }
 
     private void Jump()
@@ -55,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void ProjectRope()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !isOnRope)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !isOnRope && isOnPlatform)
         {
             // använd rope script
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -92,11 +99,23 @@ public class PlayerMovement : MonoBehaviour
         hinge.enabled = true;
     }
 
+    private void PlayerLimits()
+    {
+        if (transform.position.y >= 1.7f)
+        {
+            transform.position = new Vector2(transform.position.x, 1.7f);
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Floor"))
         {
             isOnGround = true;
+        }
+        else if (collision.gameObject.CompareTag("Lava"))
+        {
+            gameManager.gameIsActive = false;
         }
     }
 
@@ -104,7 +123,17 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Platform"))
         {
+            isOnPlatform = true;
+            gameManager.AddScore(1);
             spawner.RemoveOutOfBounds(transform.position);
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Platform"))
+        {
+            isOnPlatform = false;
         }
     }
 }

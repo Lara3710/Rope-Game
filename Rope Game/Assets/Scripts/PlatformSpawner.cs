@@ -38,7 +38,7 @@ public class PlatformSpawner : MonoBehaviour
 
     private Vector2 GenerateSpawnPoint(float prevXPos)
     {
-        float yPos = Random.Range(-9f, -6f);
+        float yPos = Random.Range(-8f, -6f);
         return new Vector2(prevXPos + platformDist, yPos);
     }
 

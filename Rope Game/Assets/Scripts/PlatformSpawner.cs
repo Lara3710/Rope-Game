@@ -38,7 +38,7 @@ public class PlatformSpawner : MonoBehaviour
 
     private Vector2 GenerateSpawnPoint(float prevXPos)
     {
-        float yPos = Random.Range(-8f, -6f);
+        float yPos = Random.Range(-8f, -7f);
         return new Vector2(prevXPos + platformDist, yPos);
     }
 
@@ -48,6 +48,7 @@ public class PlatformSpawner : MonoBehaviour
         {
             GameObject platform = platforms.Dequeue();
             platform.transform.position = GenerateSpawnPoint(platforms.Last().transform.position.x);
+            platform.GetComponent<Platform>().hasCollided = false;
             platforms.Enqueue(platform);
         }
     }

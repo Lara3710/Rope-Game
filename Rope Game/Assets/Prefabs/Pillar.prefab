@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9189251009321247045}
   - component: {fileID: 3056508729914912681}
   - component: {fileID: 2450753985501833935}
+  - component: {fileID: 3650349575767831401}
   m_Layer: 0
   m_Name: Pillar
   m_TagString: Floor
@@ -123,7 +124,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.02000001, y: -0.021920562}
+  m_Offset: {x: -0.01, y: -0.021920562}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -133,8 +134,20 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.56, y: 6.7949476}
+  m_Size: {x: 0.62, y: 6.7949476}
   m_EdgeRadius: 0
+--- !u!114 &3650349575767831401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3793584741547770456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22ab8520fd06ab34cbb2a3d8b05187aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4493217621209046391
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,7 +214,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.027299225, y: 4.7908683}
+  m_Offset: {x: -0.01, y: 4.7908683}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -211,5 +224,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.46008193, y: 2.8210125}
+  m_Size: {x: 0.61, y: 2.8210125}
   m_EdgeRadius: 0

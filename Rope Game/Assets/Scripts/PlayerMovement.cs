@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +18,11 @@ public class PlayerMovement : MonoBehaviour
 
     public PlatformSpawner spawner;
     private GameManager gameManager;
+    private AudioSource audioSource;
+
+    public AudioClip scoreSnd;
+    public AudioClip ropeSnd;
+    public AudioClip dieSnd;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -25,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
         playerRb = GetComponent<Rigidbody2D>();
         Physics2D.gravity = new Vector2(0, gravity);
         rope = GameObject.Find("RopeContainer").GetComponent<Rope>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -72,6 +79,8 @@ public class PlayerMovement : MonoBehaviour
             isOnGround = false;
             isOnRope = true;
 
+            audioSource.PlayOneShot(ropeSnd);
+
             ConnectPlayer(lastRope);
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
@@ -107,6 +116,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    IEnumerator SwitchSceneAfterSound()
+    {
+        yield return new WaitForSeconds(dieSnd.length);
+        gameManager.GameOver();
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Floor"))
@@ -115,7 +130,8 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Lava"))
         {
-            gameManager.GameOver();
+            audioSource.PlayOneShot(dieSnd);
+            StartCoroutine(SwitchSceneAfterSound());
         }
     }
 
@@ -124,8 +140,15 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Platform"))
         {
             isOnPlatform = true;
-            gameManager.AddScore(1);
             spawner.RemoveOutOfBounds(transform.position);
+
+            if (!collision.transform.GetComponentInParent<Platform>().hasCollided)
+            {
+                gameManager.AddScore(1);
+                audioSource.PlayOneShot(scoreSnd);
+            }
+
+            collision.transform.GetComponentInParent<Platform>().hasCollided = true;
         }
     }
 

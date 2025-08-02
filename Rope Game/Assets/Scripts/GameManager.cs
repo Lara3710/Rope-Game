@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     internal bool gameIsActive = true;
     public TextMeshProUGUI scoreText;
-    private int score = 0;
+    private int score = -1;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
